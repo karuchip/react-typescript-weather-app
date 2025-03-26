@@ -48,7 +48,7 @@ const App = () => {
     try {
       setLoading(true)
       const geoResponse = await fetch (
-        `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apikey}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apikey}`
       );
       const geoData = await geoResponse.json();
 
