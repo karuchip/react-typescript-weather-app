@@ -18,8 +18,8 @@ type CountryState = {
   country: string
 }
 
+
 const App = () => {
-  const apikey=import.meta.env.VITE_WEATHER_API_KEY
   const [city, setCity] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   const [country, setCountry] = useState<CountryState>({
@@ -47,30 +47,15 @@ const App = () => {
 
     try {
       setLoading(true)
-      const geoResponse = await fetch (
-        `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apikey}`
-      );
-      const geoData = await geoResponse.json();
 
-      if (geoData.length === 0) {
-        console.error("都市が見つかりません");
-        return;
+      const response = await fetch(`/netlify/functions/weather?city=${city}`);
+      const data = await response.json();
+
+      if (response.status !== 200) {
+        setError(data.error || "エラーが発生しました");
       }
-      const {name, lat, lon, country} = geoData[0]
-      setCountry({name, lat, lon, country})
-
-      const weatherResponse = await fetch (
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}`
-      );
-      const weatherData = await weatherResponse.json();
-
-      setResults({
-        weather: weatherData.weather[0].main,
-        icon: weatherData.weather[0].icon,
-        temp: weatherData.main.temp,
-        humidity: weatherData.main.humidity
-      })
-
+      setCountry(data.location);
+      setResults(data.weather);
       setLoading(false);
       setCity("");
 
