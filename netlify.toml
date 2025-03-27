@@ -1,5 +1,5 @@
 [build]
-  functions = "netlify/functions"
+  functions = "dist/netlify/functions"
   command = "npm run build"
 
 [dev]
