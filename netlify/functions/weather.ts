@@ -49,6 +49,7 @@ export const handler: Handler = async (event) => {
 
     //天気情報を取得
     const weatherResponse = await fetch(`${WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+
     const weatherData = await weatherResponse.json() as WeatherData;
 
     return {
@@ -64,8 +65,12 @@ export const handler: Handler = async (event) => {
       }),
     };
 
-  }catch (error) {
-    console.error(error);
+  }catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("Unexpected error", error);
+    }
     return {
       statusCode: 500,
       body: JSON.stringify({error: "サーバーエラーが発生しました"})
