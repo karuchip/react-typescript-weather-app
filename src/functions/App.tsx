@@ -1,8 +1,8 @@
 import {useState} from "react"
-import Title from "./components/Title"
-import Form from "./components/Form"
-import Result from "./components/Result"
-import Loading from "./components/Loading"
+import Title from "../components/Title.tsx"
+import Form from "../components/Form.tsx"
+import Result from "../components/Result.tsx"
+import Loading from "../components/Loading.tsx"
 
 type ResultState = {
   weather:string
